@@ -4,7 +4,7 @@ import { IconeAtencao } from "../components/icons/index"
 import useAuth from "../data/hook/useAuth"
 
 const Autenticacao = () => {
-  const { usuario, loginGoogle } = useAuth()
+  const { cadastrar, login, usuario, loginGoogle } = useAuth()
 
   const [erro, setErro] = useState(null)
   const [modo, setModo] = useState<'login' | 'cadastro'>('login')
@@ -16,13 +16,15 @@ const Autenticacao = () => {
     setTimeout(() => setErro(null), tempoEmSegundos * 1000)
   }
 
-  const submeter = () => {
-    if (modo === 'login') {
-      console.log('login')
-      exibirErro('Ocorreu um erro no login!')
-    } else {
-      console.log('cadastrar')
-      exibirErro('Ocorreu um erro no cadastro!')
+  const submeter = async () => {
+    try {
+      if (modo === 'login') {
+        await login(email, senha)
+      } else {
+        await cadastrar(email, senha)
+      }
+    } catch (e) {
+      exibirErro(e?.message ?? 'Erro desconhecido!')
     }
   }
 
