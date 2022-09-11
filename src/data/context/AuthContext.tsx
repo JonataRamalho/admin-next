@@ -33,6 +33,7 @@ export function AuthProvider(props) {
 
     if (resp.user?.email) {
       const usuario = await usuarioNormalizado(resp.user)
+
       setUsuario(usuario)
       route.push('/')
     }
